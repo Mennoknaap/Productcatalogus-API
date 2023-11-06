@@ -21,3 +21,6 @@ Als ik meer tijd erin zou steken, zou ik ook een authentication en authorization
 
 ### 3. Unit tests
 Als laatst zou ik ook nog unit tests toevoegen, om te er zo zeker mogelijk van te zijn dat er geen fouten in de code zitten.
+
+### 4. Random genererende codes
+Met de random genererende codes is er nog een probleem. Als er namelijk velen tegelijkertijd worden aangemaakt, dan is er een kleine kans dat er 2 dezelfde codes worden gegenereerd. Hoe ik dit exact zou oplossen weet ik echter niet.

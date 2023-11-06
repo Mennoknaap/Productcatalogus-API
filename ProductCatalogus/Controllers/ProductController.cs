@@ -38,13 +38,13 @@ namespace ProductCatalogus
             // Filter by name
             if (Naam != null)
             {
-                 filteredProducts = Filter(Naam, product => product.Naam, filteredProducts);
+                filteredProducts = Filter(Naam, product => product.Naam, filteredProducts);
             }
 
             // Filter by color
             if (Kleur != null)
             {
-                 filteredProducts = Filter(Naam, product => product.Kleur, filteredProducts);
+                filteredProducts = Filter(Naam, product => product.Kleur, filteredProducts);
             }
 
 
@@ -109,9 +109,14 @@ namespace ProductCatalogus
                 product.Code = RandomString(13);
             }
 
-            if (product.Naam.Length > 50)
+            if (string.IsNullOrWhiteSpace(product.Naam) || product.Naam.Length > 50)
             {
-                return BadRequest("De naam mag niet langer zijn dan 50 karakters");
+                return BadRequest("De naam mag niet langer zijn dan 50 karakters en mag niet leeg zijn");
+            }
+
+            if (product.PotMaat < 0 || product.PlantHoogte < 0 || product.ProductGroep < 0)
+            {
+                return BadRequest("De potmaat, planthoogte en productgroep mogen niet onder de 0 zijn");
             }
 
             product.Kleur = product.Kleur ?? "Geen kleur";
@@ -140,11 +145,21 @@ namespace ProductCatalogus
             {
                 return NotFound("Product niet gevonden");
             }
-            
+
+            if (string.IsNullOrWhiteSpace(product.Naam) || product.Naam.Length > 50)
+            {
+                return BadRequest("De naam mag niet langer zijn dan 50 karakters en mag niet leeg zijn");
+            }
+
+            if (product.PotMaat < 0 || product.PlantHoogte < 0 || product.ProductGroep < 0)
+            {
+                return BadRequest("De potmaat, planthoogte en productgroep mogen niet onder de 0 zijn");
+            }
+
             productToChange.Naam = product.Naam;
             productToChange.PotMaat = product.PotMaat;
             productToChange.PlantHoogte = product.PlantHoogte;
-            productToChange.Kleur = product.Kleur;
+            productToChange.Kleur = product.Kleur ?? "Geen kleur";
             productToChange.ProductGroep = product.ProductGroep;
 
             _context.SaveChanges();
